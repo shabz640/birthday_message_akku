@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Shamna ❤️</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #4a164c 0%, #1a0a2e 48%, #090313 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.1rem;
+      padding: 1.5rem;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,111,216,0.2), transparent 25%),
+        radial-gradient(circle at 80% 30%, rgba(255,154,60,0.16), transparent 25%),
+        radial-gradient(circle at 50% 90%, rgba(0,229,255,0.12), transparent 30%);
+      pointer-events: none;
+    }
+
+    h2 {
+      color: #fff;
+      font-size: clamp(24px, 5vw, 38px);
+      z-index: 2;
+      text-shadow: 0 0 24px rgba(255,200,100,0.7);
+    }
+
+    #subtext {
+      color: #f7d9ee;
+      font-size: 15px;
+      z-index: 2;
+      min-height: 22px;
+    }
+
+    canvas#cakeCanvas {
+      z-index: 2;
+      cursor: pointer;
+      border-radius: 18px;
+      max-width: 94vw;
+      background: rgba(255,255,255,0.03);
+      box-shadow: 0 0 35px rgba(255,111,216,0.16);
+    }
+
+    #blowBtn, #giftBtn {
+      display: none;
+      padding: 12px 32px;
+      font-size: 17px;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff6fd8, #ff9a3c);
+      color: white;
+      cursor: pointer;
+      z-index: 2;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); box-shadow: 0 0 10px #ff6fd8; }
+      to   { transform: scale(1.05); box-shadow: 0 0 24px #ff9a3c; }
+    }
+
+    #message {
+      display: none;
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: 800;
+      color: #fff;
+      z-index: 2;
+      animation: popIn 0.7s ease;
+      text-shadow: 0 0 30px #ff6fd8;
+    }
+
+    #submessage {
+      display: none;
+      max-width: 760px;
+      font-size: clamp(16px, 3vw, 22px);
+      line-height: 1.7;
+      color: #ffe6f6;
+      z-index: 2;
+      animation: popIn 0.9s ease;
+      padding: 0 0.5rem;
+      min-height: 80px;
+    }
+
+    #musicNote {
+      display: none;
+      color: #ffd9ef;
+      font-size: 13px;
+      z-index: 2;
+    }
+
+    #gallery {
+      display: none;
+      width: min(980px, 96vw);
+      z-index: 2;
+      margin-top: 0.4rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      animation: popIn 0.9s ease;
+    }
+
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.28);
+      min-height: 210px;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+      transition: transform 1s ease;
+    }
+
+    .photo-card:hover img { transform: scale(1.12); }
+
+    .caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 28px 10px 10px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    #no-photos {
+      display: none;
+      color: #f7d9ee;
+      font-size: 14px;
+      z-index: 2;
+      background: rgba(255,255,255,0.07);
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 16px 24px;
+      max-width: 500px;
+    }
+
+    @media (max-width: 850px) {
+      #gallery { grid-template-columns: repeat(2, 1fr); }
+      .photo-card { min-height: 230px; }
+    }
+
+    @media (max-width: 480px) {
+      body { justify-content: flex-start; padding-top: 2rem; }
+      #gallery { grid-template-columns: 1fr; }
+      .photo-card { min-height: 330px; }
+    }
+
+    @keyframes popIn {
+      0%   { transform: scale(0.4); opacity: 0; }
+      80%  { transform: scale(1.06); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 50%;
+      animation: fall linear forwards;
+    }
+
+    .heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      font-size: 22px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .smoke {
+      position: fixed;
+      font-size: 1.8rem;
+      pointer-events: none;
+      z-index: 3;
+      animation: smokeUp ease-out forwards;
+    }
+
+    @keyframes smokeUp {
+      0%   { transform: translateY(0) scale(0.5); opacity: 0.9; }
+      100% { transform: translateY(-120px) scale(2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="title">🎂 Birthday Cake for Shamna ❤️</h2>
+  <p id="subtext">Click the candles to light them one by one 🕯️</p>
+
+  <canvas id="cakeCanvas" width="300" height="280"></canvas>
+
+  <button id="blowBtn" onclick="blowCandles()">💨 Blow!</button>
+
+  <div id="message">Happy Birthday, Shamna ❤️</div>
+  <div id="submessage"></div>
+  <button id="giftBtn" onclick="revealPhotos()">🎁 Open Your Photo Surprise</button>
+  <p id="musicNote">Playing: Raabta 🎵</p>
+
+  <!-- Put your Raabta MP3 file in the same folder and name it exactly: raabta.mp3 -->
+  <audio id="bgMusic" src="raabta.mp3" preload="auto" loop></audio>
+
+  <div id="gallery"></div>
+  <p id="no-photos">📸 Place your photos named <strong>photo1.jpeg, photo2.jpeg ...</strong> (or .jpg/.png/.webp) in the same folder as this file. They will appear here automatically!</p>
+
+  <script>
+    // ─── PHOTO AUTO-DETECTION ───────────────────────────────────────────────
+    // Captions matched with beauty and love, rotate if more photos than captions
+    const captions = [
+      "She doesn't just light up a room — she lights up every heart in it 🌸",
+      "Her smile holds the warmth of a thousand sunrises ✨",
+      "Beauty that goes far beyond what the eyes can see 💖",
+      "In a world full of people, she is the poem I keep coming back to 🌹",
+      "The kindest soul, wrapped in the most beautiful form 💐",
+      "Her laugh is the sound the universe makes when it's happy 🎶",
+      "She loves so deeply, so genuinely — rare and irreplaceable ❤️",
+      "Every photo tells a story — hers is always one of grace and love 🌺",
+      "Not just beautiful on the outside, but breathtakingly kind within 💫",
+      "She carries sunshine wherever she goes ☀️",
+      "A heart full of gold, and eyes that speak a thousand words 💛",
+      "The most precious things in life are felt, not seen — and she is both 🌷",
+    ];
+
+    // Try common image filenames automatically — up to 20 photos
+    const extensions = ["jpeg", "jpg", "png", "webp"];
+    const photoSlots = [];
+    for (let i = 1; i <= 20; i++) {
+      extensions.forEach(ext => photoSlots.push(`photo${i}.${ext}`));
+    }
+
+    // We probe each candidate by creating an Image and checking if it loads
+    function probeImages(candidates, callback) {
+      const found = [];
+      let remaining = candidates.length;
+      candidates.forEach(src => {
+        const img = new Image();
+        img.onload = () => {
+          found.push(src);
+          if (--remaining === 0) callback(found);
+        };
+        img.onerror = () => {
+          if (--remaining === 0) callback(found);
+        };
+        img.src = src;
+      });
+    }
+
+    function buildGallery(photos) {
+      const gallery = document.getElementById("gallery");
+      gallery.innerHTML = "";
+      photos.forEach((src, i) => {
+        const caption = captions[i % captions.length];
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        card.innerHTML = `<img src="${src}" alt="Shamna"><div class="caption">${caption}</div>`;
+        gallery.appendChild(card);
+      });
+    }
+
+    // ─── CAKE CANVAS ────────────────────────────────────────────────────────
+    const canvas = document.getElementById("cakeCanvas");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+
+    const CANDLE_COUNT = 5;
+    const lit = Array(CANDLE_COUNT).fill(false);
+    let blown = false;
+    let flicker = 0;
+    let confettiTimer = null;
+    let heartTimer = null;
+
+    const candlePositions = [];
+    const startX = 60, gap = 46;
+    for (let i = 0; i < CANDLE_COUNT; i++) {
+      candlePositions.push({ x: startX + i * gap, y: 90 });
+    }
+
+    function drawCake() {
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.fillStyle = "#e8d5b7";
+      ctx.beginPath();
+      ctx.ellipse(150, 265, 130, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#f4a261";
+      ctx.beginPath();
+      ctx.roundRect(30, 200, 240, 60, 10);
+      ctx.fill();
+      ctx.fillStyle = "#e76f51";
+      ctx.fillRect(30, 200, 240, 8);
+
+      ctx.fillStyle = "#e9c46a";
+      ctx.beginPath();
+      ctx.roundRect(55, 145, 190, 60, 10);
+      ctx.fill();
+      ctx.fillStyle = "#f4a261";
+      ctx.fillRect(55, 145, 190, 8);
+
+      ctx.fillStyle = "#f4c2d5";
+      ctx.beginPath();
+      ctx.roundRect(80, 100, 140, 50, 10);
+      ctx.fill();
+      ctx.fillStyle = "#e76f51";
+      ctx.fillRect(80, 100, 140, 8);
+
+      ctx.fillStyle = "#fff";
+      [{ x: 80, tier: 100 }, { x: 55, tier: 145 }, { x: 30, tier: 200 }].forEach(({ x, tier }) => {
+        for (let d = 0; d < 5; d++) {
+          ctx.beginPath();
+          ctx.ellipse(x + 24 + d * 30, tier + 6, 8, 10, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      const sprinkleColors = ["#e76f51","#2a9d8f","#e9c46a","#264653","#f4a261"];
+      [[90,160],[110,170],[140,155],[170,165],[200,158],[220,170],
+       [65,215],[95,220],[130,210],[160,218],[195,212],[225,220],[255,215]].forEach(([sx,sy],i)=>{
+        ctx.fillStyle = sprinkleColors[i % sprinkleColors.length];
+        ctx.save(); ctx.translate(sx, sy); ctx.rotate(i * 0.7);
+        ctx.fillRect(-5, -2, 10, 4); ctx.restore();
+      });
+
+      candlePositions.forEach((pos, i) => {
+        const cx = pos.x, cy = pos.y;
+        const candleColors = ["#e63946","#457b9d","#2a9d8f","#e9c46a","#f4a261"];
+        ctx.fillStyle = candleColors[i];
+        ctx.beginPath();
+        ctx.roundRect(cx - 6, cy, 12, 30, 3);
+        ctx.fill();
+
+        ctx.strokeStyle = "rgba(255,255,255,0.4)";
+        ctx.lineWidth = 2;
+        for (let s = 0; s < 3; s++) {
+          ctx.beginPath();
+          ctx.moveTo(cx - 6, cy + 8 + s * 8);
+          ctx.lineTo(cx + 6, cy + 8 + s * 8);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx, cy - 8);
+        ctx.stroke();
+
+        if (lit[i] && !blown) {
+          const f = Math.sin(flicker * 0.3 + i) * 2;
+          ctx.fillStyle = "rgba(255,160,0,0.85)";
+          ctx.beginPath();
+          ctx.ellipse(cx + f * 0.3, cy - 18, 7, 12, f * 0.05, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(255,240,100,0.95)";
+          ctx.beginPath();
+          ctx.ellipse(cx + f * 0.2, cy - 15, 4, 8, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          const grd = ctx.createRadialGradient(cx, cy - 16, 2, cx, cy - 16, 18);
+          grd.addColorStop(0, "rgba(255,200,50,0.3)");
+          grd.addColorStop(1, "rgba(255,200,50,0)");
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy - 16, 18, 18, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (!lit[i] && !blown) {
+          ctx.fillStyle = "#888";
+          ctx.beginPath();
+          ctx.arc(cx, cy - 3, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+
+    canvas.addEventListener("click", function(e) {
+      if (blown) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) * (W / rect.width);
+      const my = (e.clientY - rect.top) * (H / rect.height);
+      let hit = false;
+      candlePositions.forEach((pos, i) => {
+        if (!lit[i] && Math.abs(mx - pos.x) < 18 && my > pos.y - 20 && my < pos.y + 35) {
+          lit[i] = true;
+          hit = true;
+        }
+      });
+      if (hit) {
+        startMusic();
+        const allLit = lit.every(v => v);
+        if (allLit) {
+          document.getElementById("subtext").textContent = "All candles lit! Now blow them out 💨";
+          document.getElementById("blowBtn").style.display = "inline-block";
+        } else {
+          const remaining = lit.filter(v => !v).length;
+          document.getElementById("subtext").textContent = `${remaining} candle${remaining > 1 ? "s" : ""} left to light...`;
+        }
+      }
+    });
+
+    function startMusic() {
+      const music = document.getElementById("bgMusic");
+      if (!music) return;
+      music.volume = 0.55;
+      music.play()
+        .then(() => document.getElementById("musicNote").style.display = "block")
+        .catch(() => document.getElementById("musicNote").textContent = "Tap again to start Raabta 🎵");
+    }
+
+    function blowCandles() {
+      blown = true;
+      document.getElementById("blowBtn").style.display = "none";
+      document.getElementById("subtext").textContent = "";
+
+      startMusic();
+
+      candlePositions.forEach((pos, i) => {
+        setTimeout(() => {
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = rect.width / W;
+          const scaleY = rect.height / H;
+          const sx = rect.left + pos.x * scaleX;
+          const sy = rect.top + pos.y * scaleY;
+          for (let s = 0; s < 3; s++) {
+            const smoke = document.createElement("span");
+            smoke.className = "smoke";
+            smoke.textContent = "💨";
+            smoke.style.left = (sx - 14 + Math.random() * 20) + "px";
+            smoke.style.top  = (sy - 20) + "px";
+            smoke.style.animationDuration = (0.8 + Math.random() * 0.5) + "s";
+            document.body.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 1400);
+          }
+        }, i * 100);
+      });
+
+      setTimeout(() => {
+        document.getElementById("title").textContent = "🎉 Surprise!";
+        document.getElementById("message").style.display = "block";
+        typeMessage("You are pure magic, Shamna — the kind of person whose very presence makes everything brighter. Your beauty is only rivalled by your golden heart. May this birthday mark the beginning of your most beautiful chapter yet. Loved endlessly, always 💖");
+        document.getElementById("giftBtn").style.display = "inline-block";
+        startConfetti();
+        startHeartRain();
+      }, 800);
+    }
+
+    function typeMessage(text) {
+      const el = document.getElementById("submessage");
+      el.style.display = "block";
+      el.textContent = "";
+      let i = 0;
+      const timer = setInterval(() => {
+        el.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(timer);
+      }, 45);
+    }
+
+    function revealPhotos() {
+      document.getElementById("giftBtn").style.display = "none";
+      document.getElementById("subtext").textContent = "These memories are safe here, made only for you ❤️";
+
+      // Probe for available photos
+      probeImages(photoSlots, function(found) {
+        // Deduplicate (same image different extension won't happen, but keep uniques by basename)
+        const seen = new Set();
+        const unique = found.filter(src => {
+          const base = src.replace(/\.\w+$/, "");
+          if (seen.has(base)) return false;
+          seen.add(base);
+          return true;
+        });
+
+        if (unique.length > 0) {
+          buildGallery(unique);
+          document.getElementById("gallery").style.display = "grid";
+          setTimeout(() => {
+            document.getElementById("gallery").scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 100);
+        } else {
+          document.getElementById("no-photos").style.display = "block";
+        }
+      });
+    }
+
+    function startConfetti() {
+      const colors = ["#ff6fd8","#ffd700","#ff9a3c","#00e5ff","#adff2f","#ff4d6d","#c77dff"];
+      for (let i = 0; i < 90; i++) {
+        setTimeout(() => createParticle(colors), i * 45);
+      }
+      if (!confettiTimer) {
+        confettiTimer = setInterval(() => createParticle(colors), 280);
+      }
+    }
+
+    function createParticle(colors) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      const size = 6 + Math.random() * 10;
+      p.style.width  = size + "px";
+      p.style.height = size + "px";
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.left = Math.random() * 100 + "vw";
+      p.style.top  = "-20px";
+      const dur = 2.5 + Math.random() * 2;
+      p.style.animationDuration = dur + "s";
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), dur * 1000);
+    }
+
+    function startHeartRain() {
+      const hearts = ["❤️", "💖", "💕", "✨", "🌹"];
+      if (!heartTimer) {
+        heartTimer = setInterval(() => {
+          const h = document.createElement("span");
+          h.className = "heart";
+          h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          h.style.left = Math.random() * 100 + "vw";
+          h.style.top = "-20px";
+          h.style.fontSize = (18 + Math.random() * 18) + "px";
+          const dur = 3 + Math.random() * 2.5;
+          h.style.animationDuration = dur + "s";
+          document.body.appendChild(h);
+          setTimeout(() => h.remove(), dur * 1000);
+        }, 420);
+      }
+    }
+
+    function loop() {
+      flicker++;
+      drawCake();
+      requestAnimationFrame(loop);
+    }
+    loop();
+  </script>
+</body>
+</html>
