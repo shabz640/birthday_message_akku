@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday, Shamna ❤️</title>
+  <title>Happy Birthday, Akku ❤️</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -213,14 +213,14 @@
 </head>
 <body>
 
-  <h2 id="title">🎂 Birthday Cake for Shamna ❤️</h2>
+  <h2 id="title">🎂 Birthday Cake for Akku ❤️</h2>
   <p id="subtext">Click the candles to light them one by one 🕯️</p>
 
   <canvas id="cakeCanvas" width="300" height="280"></canvas>
 
   <button id="blowBtn" onclick="blowCandles()">💨 Blow!</button>
 
-  <div id="message">Happy Birthday, Shamna ❤️</div>
+  <div id="message">Happy Birthday, Akku ❤️</div>
   <div id="submessage"></div>
   <button id="giftBtn" onclick="revealPhotos()">🎁 Open Your Photo Surprise</button>
   <p id="musicNote">Playing: Raabta 🎵</p>
@@ -280,7 +280,7 @@
         const caption = captions[i % captions.length];
         const card = document.createElement("div");
         card.className = "photo-card";
-        card.innerHTML = `<img src="${src}" alt="Shamna"><div class="caption">${caption}</div>`;
+        card.innerHTML = `<img src="${src}" alt="Akku"><div class="caption">${caption}</div>`;
         gallery.appendChild(card);
       });
     }
@@ -465,7 +465,7 @@
       setTimeout(() => {
         document.getElementById("title").textContent = "🎉 Surprise!";
         document.getElementById("message").style.display = "block";
-        typeMessage("You are pure magic, Shamna — the kind of person whose very presence makes everything brighter. Your beauty is only rivalled by your golden heart. May this birthday mark the beginning of your most beautiful chapter yet. Loved endlessly, always 💖");
+        typeMessage("You are pure magic, Akku — the kind of person whose very presence makes everything brighter. Your beauty is only rivalled by your golden heart. May this birthday mark the beginning of your most beautiful chapter yet. Loved endlessly, always 💖");
         document.getElementById("giftBtn").style.display = "inline-block";
         startConfetti();
         startHeartRain();
